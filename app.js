@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-const sequelize = require("./database/database");
 const User = require("./model/user");
 
 app.use(express.urlencoded({ extended: true }));
