@@ -4,9 +4,14 @@ const sequelize = require("./database/database");
 const User = require("./model/user");
 
 app.use(express.urlencoded({ extended: true }));
+app.set("view engine", "ejs");
 
-app.get("/", (req, res) => {
-  res.sendFile("/views/home.html", { root: __dirname });
+app.get("/", async (req, res) => {
+  User.findAll()
+    .then((result) => {
+      res.render("home", { users: result });
+    })
+    .catch((err) => console.log(err));
 });
 
 app.post("/", (req, res) => {
