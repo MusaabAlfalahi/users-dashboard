@@ -3,14 +3,27 @@ const app = express();
 const User = require("./model/user");
 
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
 app.set("view engine", "ejs");
 
 app.get("/", async (req, res) => {
-  User.findAll()
-    .then((result) => {
-      res.render("home", { users: result });
-    })
-    .catch((err) => console.log(err));
+  res.render("index", {});
+  // User.findAll()
+  //   .then((result) => {
+  //   })
+  //   .catch((err) => console.log(err));
+});
+
+app.get("/user/add.html", (req, res) => {
+  res.render("user/add");
+});
+
+app.get("/user/view.html", (req, res) => {
+  res.render("user/view");
+});
+
+app.get("/user/edit.html", (req, res) => {
+  res.render("user/edit");
 });
 
 app.post("/", (req, res) => {
