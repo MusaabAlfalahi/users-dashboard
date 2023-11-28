@@ -19,10 +19,16 @@ const User = sequelize.define('User', {
   email: {
     type: Sequelize.STRING,
     allowNull: false,
+    unique: true,
+    validate: {
+      isEmail: true,
+    },
   },
   phonenumber: {
-    type: Sequelize.STRING, 
-    allowNull: false,
+    type: Sequelize.STRING,
+    validate: {
+      is: /^(07[789]\d{7})$/,
+    },
   },
   age: {
     type: Sequelize.INTEGER,
