@@ -15,6 +15,10 @@ app.get("/", async (req, res) => {
     .catch((err) => console.log(err));
 });
 
+app.get("/user/add.html", (req, res) => {
+  res.render("user/add");
+});
+
 app.get("/user/:id", async (req, res) => {
   await User.findByPk(req.params.id)
     .then((result) => {
@@ -23,9 +27,6 @@ app.get("/user/:id", async (req, res) => {
     .catch((err) => console.log(err));
 });
 
-app.get("/user/add.html", (req, res) => {
-  res.render("user/add");
-});
 
 app.get("/user/view.html", (req, res) => {
   res.render("user/view");
