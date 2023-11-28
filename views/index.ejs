@@ -57,14 +57,14 @@
                 <td><%= user.gender %></td>
                 <td><%= user.country %></td>
                 <td><%= user.age %></td>
-                <td>1 days ago</td>
+                <td><%= moment(user.updatedAt).fromNow() %></td>
                 <td>
                   <a
                     data-bs-toggle="tooltip"
                     data-bs-title="View details"
                     data-bs-placement="top"
                     class="btn btn-primary btn-sm"
-                    href="./user/view.html"
+                    href="./user/<%= user.id %>"
                     ><i class="bi bi-eye"></i
                   ></a>
   
