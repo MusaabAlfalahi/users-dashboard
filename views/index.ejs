@@ -34,6 +34,9 @@
       <section class="w-100">
         <%- include('./components/navbar.ejs') %>
 
+        <% if (users.length === 0) { %>
+          <h1 style="text-align: center;">No data avaliable</h1>
+        <% } else {%>
         <table
           style="width: 99%"
           class="text-center mx-auto table mt-5 table-striped table-bordered"
@@ -50,52 +53,62 @@
             </tr>
           </thead>
           <tbody>
-            <% users.forEach(user => { %>
-              <tr>
-                <th scope="row"><%= user.id %></th>
-                <td><%= user.firstname %> <%= user.lastname %></td>
-                <td><%= user.gender %></td>
-                <td><%= user.country %></td>
-                <td><%= user.age %></td>
-                <td><%= moment(user.updatedAt).fromNow() %></td>
-                <td>
-                  <a
-                    data-bs-toggle="tooltip"
-                    data-bs-title="View details"
-                    data-bs-placement="top"
-                    class="btn btn-primary btn-sm"
-                    href="./user/<%= user.id %>"
-                    ><i class="bi bi-eye"></i
-                  ></a>
-  
-                  <a
-                    data-bs-toggle="tooltip"
-                    data-bs-title="Edit user"
-                    data-bs-placement="top"
-                    class="btn btn-primary btn-sm"
-                    href="./user/edit.html"
+            <% users.forEach((user, index) => { %>
+            <tr>
+              <th scope="row"><%= index+1 %></th>
+              <td><%= user.firstname %> <%= user.lastname %></td>
+              <td><%= user.gender %></td>
+              <td><%= user.country %></td>
+              <td><%= user.age %></td>
+              <td><%= moment(user.updatedAt).fromNow() %></td>
+              <td>
+                <a
+                  data-bs-toggle="tooltip"
+                  data-bs-title="View details"
+                  data-bs-placement="top"
+                  class="btn btn-primary btn-sm"
+                  href="./view/<%= user.id %>"
+                  ><i class="bi bi-eye"></i
+                ></a>
+
+                <a
+                  data-bs-toggle="tooltip"
+                  data-bs-title="Edit user"
+                  data-bs-placement="top"
+                  class="btn btn-primary btn-sm"
+                  href="./edit/<%= user.id %>"
+                >
+                  <i class="bi bi-pencil"></i>
+                </a>
+                <button
+                  data-bs-toggle="tooltip"
+                  data-bs-title="Delete user"
+                  data-bs-placement="top"
+                  class="btn btn-danger btn-sm"
+                  onclick="delete_user(<%= user.id %>)"
                   >
-                    <i class="bi bi-pencil"></i>
-                  </a>
-                  <button
-                    data-bs-toggle="tooltip"
-                    data-bs-title="Delete user"
-                    data-bs-placement="top"
-                    class="btn btn-danger btn-sm"
-                  >
-                    <i class="bi bi-trash"></i>
-                  </button>
-                </td>
-              </tr>
+                  <i class="bi bi-trash"></i>
+                </button>
+              </td>
+            </tr>
             <% }); %>
           </tbody>
         </table>
+        <% } %>
       </section>
     </main>
-    <script src="./js/bootstrap.bundle.min.js"></script>
-
-    <script src="./js/sidebars.js"></script>
-
-    <script src="./js/main.js"></script>
   </body>
+  <script>
+    function delete_user(id) {
+      console.log(id);
+      fetch(`/user/delete/${id}`, {
+        method: "DELETE",
+        body: "hi",
+      }).then((response) => window.location.reload());
+    }
+  </script>
+  <script src="../js/bootstrap.bundle.min.js"></script>
+
+  <script src="../js/sidebars.js"></script>
+  <script src="../js/main.js"></script>
 </html>

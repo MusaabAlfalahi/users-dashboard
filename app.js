@@ -19,16 +19,31 @@ app.get("/user/add.html", (req, res) => {
   res.render("user/add");
 });
 
-app.get("/user/edit.html", (req, res) => {
-  res.render("user/edit");
+app.get("/edit/:id", async (req, res) => {
+  await User.findByPk(req.params.id)
+    .then((result) => {
+      res.render("user/edit", { user: result });
+    })
+    .catch((err) => console.log(err));
 });
 
-app.get("/user/:id", async (req, res) => {
+app.get("/view/:id", async (req, res) => {
   await User.findByPk(req.params.id)
     .then((result) => {
       res.render("user/view", { user: result, moment });
     })
     .catch((err) => console.log(err));
+});
+
+app.delete("/user/delete/:id", async (req, res) => {
+  try {
+    console.log(req);
+    const userid = req.params.id;
+    await User.destroy({ where: { id: userid } });
+    res.redirect('/');
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 app.post("/user/add.html", async (req, res) => {
