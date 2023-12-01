@@ -14,4 +14,4 @@ app.all("*", (req, res) => {
   res.render("oops");
 });
 
-app.listen(process.env.PORT);
+app.listen(process.env.PORT || 3000);
