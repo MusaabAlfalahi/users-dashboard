@@ -3,9 +3,10 @@ const app = express();
 const User = require("./model/user");
 const moment = require("moment/moment");
 const methodOverride = require("method-override");
+const { Op } = require("sequelize");
 
 app.use(express.urlencoded({ extended: true }));
-app.use(methodOverride('_method'));
+app.use(methodOverride("_method"));
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 
@@ -30,6 +31,7 @@ app.get("/edit/:id", async (req, res) => {
 });
 
 app.get("/view/:id", async (req, res) => {
+  // await User.findAll({ where: { id: { [Op.eq]: req.params.id } } })
   await User.findByPk(req.params.id)
     .then((result) => {
       res.render("user/view", { user: result, moment });
@@ -41,22 +43,40 @@ app.delete("/user/delete/:id", async (req, res) => {
   try {
     const userid = req.params.id;
     await User.destroy({ where: { id: userid } });
-    res.redirect('/');
+    res.redirect("/");
   } catch (err) {
     console.log(err);
   }
 });
 
-app.put('/user/update/:id', async (req, res) => {
+app.put("/user/update/:id", async (req, res) => {
   try {
     console.log(req.body);
     const userid = req.params.id;
     await User.update({ ...req.body }, { where: { id: userid } });
-    res.redirect('/');
+    res.redirect("/");
   } catch (err) {
     console.log(err);
   }
-})
+});
+
+app.post("/search", async (req, res) => {
+  User.findAll({
+    where: {
+      [Op.or]: {
+        firstname: req.body.search,
+        lastname: req.body.search,
+      },
+    },
+  })
+    .then((result) => {
+      console.log(result);
+      res.render("user/search", { users: result });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 
 app.post("/user/add.html", async (req, res) => {
   try {
