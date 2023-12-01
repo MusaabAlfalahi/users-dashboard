@@ -1,10 +1,12 @@
 {
-  "name": "newone",
+  "name": "users dashboard",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "dev": "nodemon app.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "watch": "nodemon --ext"
   },
   "keywords": [],
   "author": "",
