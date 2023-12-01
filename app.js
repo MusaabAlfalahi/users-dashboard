@@ -2,8 +2,10 @@ const express = require("express");
 const app = express();
 const User = require("./model/user");
 const moment = require("moment/moment");
+const methodOverride = require("method-override");
 
 app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 
@@ -37,7 +39,6 @@ app.get("/view/:id", async (req, res) => {
 
 app.delete("/user/delete/:id", async (req, res) => {
   try {
-    console.log(req);
     const userid = req.params.id;
     await User.destroy({ where: { id: userid } });
     res.redirect('/');
@@ -45,6 +46,17 @@ app.delete("/user/delete/:id", async (req, res) => {
     console.log(err);
   }
 });
+
+app.put('/user/update/:id', async (req, res) => {
+  try {
+    console.log(req.body);
+    const userid = req.params.id;
+    await User.update({ ...req.body }, { where: { id: userid } });
+    res.redirect('/');
+  } catch (err) {
+    console.log(err);
+  }
+})
 
 app.post("/user/add.html", async (req, res) => {
   try {

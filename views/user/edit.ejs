@@ -6,8 +6,6 @@
       rel="stylesheet"
       href="../bootstrap-icons-1.10.5/font/bootstrap-icons.min.css"
     />
-    <link rel="shortcut icon" href="../img/ali.png" type="image/x-icon" />
-
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="" />
@@ -51,7 +49,7 @@
           </p>
         </nav>
 
-        <form class="mx-0 row gx-3 gy-4 mt-2">
+        <form class="mx-0 row gx-3 gy-4 mt-2" action="/user/update/<%= user.id %>?_method=PUT" method="post">
           <div class="col-md-6">
             <label for="inputfirstName4" class="form-label">First Name:</label>
             <input
@@ -59,6 +57,7 @@
               type="text"
               class="form-control"
               id="inputfirstName4"
+              name="firstname"
             />
           </div>
           <div class="col-md-6">
@@ -68,6 +67,7 @@
               type="text"
               class="form-control"
               id="inputlastName4"
+              name="lastname"
             />
           </div>
 
@@ -78,6 +78,7 @@
               type="email"
               class="form-control"
               id="inputemail4"
+              name="email"
             />
           </div>
           <div class="col-md-6">
@@ -87,6 +88,7 @@
               type="number"
               class="form-control"
               id="inputtele4"
+              name="phonenumber"
             />
           </div>
 
@@ -98,6 +100,7 @@
                 type="number"
                 class="form-control"
                 id="inputage4"
+                name="age"
               />
             </div>
           </div>
@@ -105,7 +108,7 @@
           <div>
             <div class="col-md-6">
               <label for="inputCountry" class="form-label">Country:</label>
-              <select id="inputCountry" class="form-select">
+              <select id="inputCountry" name="country" class="form-select">
                 <option selected hidden disabled><%= user.country %></option>
                 <% const country_list = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua &amp; Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia &amp; Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Cape Verde","Cayman Islands","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica","Cote D Ivoire","Croatia","Cruise Ship","Cuba","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Estonia","Ethiopia","Falkland Islands","Faroe Islands","Fiji","Finland","France","French Polynesia","French West Indies","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guam","Guatemala","Guernsey","Guinea","Guinea Bissau","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kuwait","Kyrgyz Republic","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macau","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Mauritania","Mauritius","Mexico","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Namibia","Nepal","Netherlands","Netherlands Antilles","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","Norway","Oman","Pakistan","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Pierre &amp; Miquelon","Samoa","San Marino","Satellite","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","South Africa","South Korea","Spain","Sri Lanka","St Kitts &amp; Nevis","St Lucia","St Vincent","St. Lucia","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo","Tonga","Trinidad &amp; Tobago","Tunisia","Turkey","Turkmenistan","Turks &amp; Caicos","Uganda","Ukraine","United Arab Emirates","United Kingdom","Uruguay","Uzbekistan","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"];%>
                 <% country_list.forEach(element => { %>
@@ -118,7 +121,7 @@
           <div>
             <div class="col-md-6">
               <label for="inputGender" class="form-label">Gender:</label>
-              <select id="inputGender" class="form-select">
+              <select id="inputGender" name="gender" class="form-select">
                 <!-- <option selected hidden disabled></option> -->
                 <option <%= "Female" === user.gender ? "selected" : null %> >Female</option>
                 <option <%= "Male" === user.gender ? "selected" : null %> >Male</option>
@@ -174,22 +177,11 @@
               >
                 Close
               </button>
-              <button
-                type="button"
-                class="btn btn-danger"
-                onclick="delete_user(<%= user.id %>)"
-              >
-                Delete
-              </button>
-              <script>
-                function delete_user(id) {
-                  console.log(id);
-                  fetch("/user/delete/"+id, {
-                    method: "DELETE",
-                    body: JSON.stringify({ userid: id }),
-                  }).then((response) => window.location.href="/");
-                }
-              </script>
+              <form action="/user/delete/<%= user.id %>?_method=DELETE" method="post" style="display: inline;">
+                <button type="submit" class="btn btn-danger">
+                  Delete
+                </button>
+              </form>
             </div>
           </div>
         </div>
